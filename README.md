@@ -1,8 +1,7 @@
 # HomeTeacher
 
-<p align="center">
-## a distance learning platform
-## by Paul Lehmann</p>
+<h3>a distance learning platform<br>
+by Paul Lehmann</h3>
 
 Welcome to HomeTeacher!  The purpose of this application is to facilitate distance learning by allowing teachers and students to interact by creating, assigning, completing, and grading assignments and tests.
 
