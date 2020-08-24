@@ -12,7 +12,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 6
+        minlength: 4
     },
     firstName: {
         type: String,
@@ -23,7 +23,7 @@ const userSchema = new Schema({
         required: true
     },
     accountType: {
-        type: Number, // 0 = Teacher, 1 = Student, 2 = Parent
+        type: String,
         required: true
     }
 });
