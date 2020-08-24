@@ -12,7 +12,7 @@ express().use(express.json());
 const uri = "mongodb+srv://testuser:test@users.kahfi.mongodb.net/users?retryWrites=true&w=majority";
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true});
 mongoose.connection.once("open", function() {
-    console.log("Successfully connected to MongoDB")
+    console.log("Successfully connected to MongoDB");
 })
 
 
