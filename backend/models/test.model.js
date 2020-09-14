@@ -10,9 +10,9 @@ const testSchema = new Schema({
         unique: true
     },
     questionArray: {
-        type: [Question]
+        type: [String]
     },
-    type: {
+    testType: {
         type: String,
         required: true
     },

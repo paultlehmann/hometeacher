@@ -7,7 +7,7 @@ export default class TestEditor extends Component {
 
         this.onSetName = this.onSetName.bind(this);
         this.onSetQuestionArray = this.onSetQuestionArray.bind(this);
-        this.onSetType = this.onSetType.bind(this);
+        this.onSetTestType = this.onSetTestType.bind(this);
         this.onSetTeacher = this.onSetTeacher.bind(this);
         this.onSetStudent = this.onSetStudent.bind(this);
         this.onSetIsComplete = this.onSetIsComplete.bind(this);
@@ -17,7 +17,7 @@ export default class TestEditor extends Component {
         this.state = {
             name: "",
             questionArray: [],
-            type: "test",
+            testType: "test",
             teacher: "5f496fff8e7faa21e4288169",
             student: "",
             isComplete: false,
@@ -37,9 +37,9 @@ export default class TestEditor extends Component {
         });
     }
 
-    onSetType(e) {
+    onSetTestType(e) {
         this.setState({
-            type: e.target.value
+            testType: e.target.value
         });
     }
 
@@ -72,7 +72,7 @@ export default class TestEditor extends Component {
         const test = {
             name: this.state.name,
             questionArray: this.state.questionArray,
-            type: this.state.type,
+            testType: this.state.testType,
             teacher: this.state.teacher,
             student: this.state.student,
             isComplete: this.state.isComplete,
@@ -81,7 +81,7 @@ export default class TestEditor extends Component {
         console.log(test);
         axios.post("http://localhost:5000/tests/add", test)
             .then(function () {
-                window.location.replace("http://localhost:3000/dashboard");
+                window.location.replace(`http://localhost:3000/qeditor/${test.name}`);
             });
     }
 
@@ -99,25 +99,17 @@ export default class TestEditor extends Component {
                         </input>
                     </div>
                     <div className="testEditorFormField">
-                        <label>Questions [placeholder]:</label>
-                        <input type="text"
-                            required
-                            value={this.state.questionArray}
-                            onChange={this.onSetQuestionArray}
-                        />
-                    </div>
-                    <div className="testEditorFormField">
                         <label>Test or assignment:</label>
                         <select
                             type="text"
-                            value={this.state.type}
-                            onChange={this.onSetType}>
+                            value={this.state.testType}
+                            onChange={this.onSetTestType}>
                             <option value="test">Test</option>
                             <option value="assignment">Assignment</option>
                         </select>
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Save Test" />
+                        <input type="submit" value="Add Questions" />
                     </div>
                 </form>
             </div>

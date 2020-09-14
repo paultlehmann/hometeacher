@@ -15,12 +15,12 @@ router.route("/").get(function (req, res) {
 router.route("/add").post(function (req, res) {
     const name = req.body.name;
     const questionArray = req.body.questionArray;
-    const type = req.body.type;
+    const testType = req.body.testType;
     const teacher = req.body.teacher;
     const student = req.body.student;
     const isComplete = req.body.isComplete;
     const grade = req.body.grade;
-    const newTest = new Test({ name, questionArray, type, teacher, student, isComplete, grade });
+    const newTest = new Test({ name, questionArray, testType, teacher, student, isComplete, grade });
 
     newTest.save().then(function () {
         res.json("Test added");
@@ -36,6 +36,16 @@ router.route("/id/:id").get(function (req, res) {
         res.json(test);
     });
 });
+
+// // Find test by name
+
+// router.route("/name/:name").get(function (req, res) {
+//     Test.findOne({name: `${req.name}`}).exec()
+//     .then(function (test) {
+//         res.json(test);
+//     })
+// })
+
 
 // Delete a test by ID
 
@@ -53,7 +63,7 @@ router.route("/id/:id").post(function (req, res) {
     .then(function (test) {
         test.name = req.body.name;
         test.questionArray = req.body.questionArray;
-        test.type = req.body.type;
+        test.testType = req.body.testType;
         test.teacher = req.body.teacher;
         test.student = req.body.student;
         test.isComplete = req.body.isComplete;

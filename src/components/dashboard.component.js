@@ -4,7 +4,7 @@ export default class Dashboard extends Component {
     render() {
         return(
             <div>
-            <h3><a href="">Create a new test</a></h3>
+            <h3><a href="/testeditor">Create a new test</a></h3>
             <br />
             <hr />
             <h3>Edit or assign an existing test</h3>
