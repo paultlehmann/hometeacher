@@ -12,7 +12,6 @@ export default class Register extends Component {
         this.onSetAccountType = this.onSetAccountType.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
-
         this.state = {
             username: "",
             password: "",
@@ -62,7 +61,6 @@ export default class Register extends Component {
             .then(function () {
                 window.location.replace("http://localhost:3000/dashboard");
             });
-
     }
 
     render() {
