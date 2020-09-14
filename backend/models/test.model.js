@@ -1,4 +1,4 @@
-let Question = require("./question.model");
+const {Question} = require("./question.model");
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
@@ -10,9 +10,7 @@ const testSchema = new Schema({
         unique: true
     },
     questionArray: {
-        // TODO: Make this an array of Questions
-        type: [String],
-        required: true
+        type: [Question]
     },
     type: {
         type: String,

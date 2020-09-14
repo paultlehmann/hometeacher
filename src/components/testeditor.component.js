@@ -16,10 +16,10 @@ export default class TestEditor extends Component {
 
         this.state = {
             name: "",
-            questionArray: "",
+            questionArray: [],
             type: "test",
             teacher: "5f496fff8e7faa21e4288169",
-            student: "5f496f568e7faa21e4288168",
+            student: "",
             isComplete: false,
             grade: undefined
         }
