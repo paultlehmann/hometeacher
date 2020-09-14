@@ -25,6 +25,9 @@ const testSchema = new Schema({
     student: {
         type: String
     },
+    isComplete: {
+        type: Boolean
+    },
     grade: {
         type: Number
     }

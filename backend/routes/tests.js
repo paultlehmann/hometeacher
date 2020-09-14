@@ -14,8 +14,9 @@ router.route("/add").post(function (req, res) {
     const type = req.body.type;
     const teacher = req.body.teacher;
     const student = req.body.student;
+    const isComplete = req.body.isComplete;
     const grade = req.body.grade;
-    const newTest = new Test({ name, questionArray, type, teacher, student, grade });
+    const newTest = new Test({ name, questionArray, type, teacher, student, isComplete, grade });
 
     newTest.save().then(function () {
         res.json("Test added");
