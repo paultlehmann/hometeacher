@@ -19,9 +19,7 @@ mongoose.connection.once("open", function() {
 
 // Routers
 const usersRouter = require("./routes/users");
-// const dashRouter = require("./routes/dashboard");
 app.use("/users", usersRouter);
-// app.use ("/dashboard", dashRouter)
 
 app.listen(port, function() {
     console.log(`Server is running on port ${port}`);

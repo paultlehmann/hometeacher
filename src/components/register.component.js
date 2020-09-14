@@ -18,7 +18,7 @@ export default class Register extends Component {
             password: "",
             firstName: "",
             lastName: "",
-            accountType: ""
+            accountType: "teacher"
         }
     }
 
@@ -80,7 +80,7 @@ export default class Register extends Component {
                     </div>
                     <div className="registerFormField">
                         <label>Password: </label>
-                        <input type="text"
+                        <input type="password"
                             required
                             value={this.state.password}
                             onChange={this.onSetPassword}
