@@ -21,6 +21,12 @@ mongoose.connection.once("open", function() {
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
+const testsRouter = require("./routes/tests");
+app.use("/tests", testsRouter);
+
+const questionsRouter = require("./routes/questions");
+app.use("/questions", questionsRouter);
+
 app.listen(port, function() {
     console.log(`Server is running on port ${port}`);
 });
