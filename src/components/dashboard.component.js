@@ -1,54 +1,54 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class Dashboard extends Component {
-    render() {
-        return(
-            <div>
-            <h3><a href="/testeditor">Create a new test</a></h3>
-            <br />
-            <hr />
-            <h3>Edit or assign an existing test</h3>
-            <table>
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Date created</b></td>
-                    <td><b>Last modified</b></td>
-                </tr>
-                <tr>
-                    <td><a href="">Example test 1</a></td>
-                    <td>[Date/Time]</td>
-                    <td>[Date/Time]</td>
-                </tr>
-                <tr>
-                    <td><a href="">Example test 2</a></td>
-                    <td>[Date/Time]</td>
-                    <td>[Date/Time]</td>
-                </tr>
-            </table>
-            <br />
-            <hr />
-            <h3>Grade a submitted test</h3>
-            <table>
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Submitter</b></td>
-                    <td><b>Submission date</b></td>
-                    <td><b>Grade</b></td>
 
-                </tr>
-                <tr>
-                    <td><a href="">Example test 1</a></td>
-                    <td>[Name]</td>
-                    <td>[Date/Time]</td>
-                    <td><a href="">Grade</a></td>
-                </tr>
-                <tr>
-                <td><a href="">Example test 2</a></td>
-                    <td>[Name]</td>
-                    <td>[Date/Time]</td>
-                    <td><a href="">Grade</a></td>
-                </tr>
-            </table>
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loadedTests: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:5000/tests/')
+            .then(response => {
+                if (response.data.length > 0) {
+                    this.setState({
+                        loadedTests: response.data
+                    }, function() {
+                        console.log("Loaded tests -" + this.state.loadedTests);
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            
+    }
+
+    render() {
+        console.log("Currently loaded tests:" + this.state.loadedTests);
+        return (
+            <div>
+                <h3><a href="/testeditor">Create a new test</a></h3>
+                <br />
+                <hr />
+                <h3>Edit or assign an existing test</h3>
+                <div>
+                <ul>
+                    {this.state.loadedTests.map(function (test) {
+                    return(
+                    <li>
+                        Name: {test.name}, Type: {test.testType}, ID: {test._id}
+                    </li>
+                    )})}
+                </ul>
+                </div>
+                <br />
+                <hr />
+                <h3>Grade a submitted test</h3>
             </div>
         );
     }

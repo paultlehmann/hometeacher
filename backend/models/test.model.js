@@ -1,4 +1,4 @@
-const {Question} = require("./question.model");
+const { Question } = require("./question.model");
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
