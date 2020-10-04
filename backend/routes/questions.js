@@ -24,4 +24,13 @@ router.route("/add").post(function (req, res) {
 
 });
 
+// Delete a question by ID
+
+router.route("/id/:id").delete(function (req, res) {
+    Question.findByIdAndDelete(req.params.id)
+    .then(function() {
+        res.json("Question deleted.");
+    });
+});
+
 module.exports = router;

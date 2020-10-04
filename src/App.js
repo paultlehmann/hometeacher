@@ -20,6 +20,7 @@ function App() {
         <Route path = "/dashboard" component = {Dashboard} />
         <Route path = "/testeditor" component = {TestEditor} />
         <Route path = "/qeditor/*" component = {QEditor} />
+        <Route path = "/qeditor" component = {QEditor} />
       </div>
     </Router>
   );

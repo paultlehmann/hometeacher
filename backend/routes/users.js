@@ -2,11 +2,24 @@ const router = require("express").Router();
 
 let User = require("../models/user.model");
 
+// Get all users
+
 router.route("/").get(function (req, res) {
     User.find().then(function (users) {
         res.json(users)
     })
 });
+
+// Find user by ID
+
+router.route("/id/:id").get(function (req, res) {
+    User.findById(req.params.id)
+    .then(function (user) {
+        res.json(user);
+    });
+});
+
+// Add a user
 
 router.route("/add").post(function (req, res) {
     const username = req.body.username;

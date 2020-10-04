@@ -2,19 +2,25 @@ import React, { Component } from "react";
 import axios from "axios";
 
 export default class QEditor extends Component {
+
     constructor(props) {
         super(props);
 
         this.onSetPrompt = this.onSetPrompt.bind(this);
         this.onSetRightAnswer = this.onSetRightAnswer.bind(this);
-        this.onSetWrongAnswers = this.onSetWrongAnswers.bind(this);
+        this.onSetWrongAnswer1 = this.onSetWrongAnswer1.bind(this);
+        this.onSetWrongAnswer2 = this.onSetWrongAnswer2.bind(this);
+        this.onSetWrongAnswer3 = this.onSetWrongAnswer3.bind(this);
         this.onSetGuess = this.onSetGuess.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.wrongAnswerArray = [];
 
         this.state = {
             prompt: "",
             rightAnswer: "",
-            wrongAnswers: [],
+            wrongAnswer1: "",
+            wrongAnswer2: "",
+            wrongAnswer3: "",
             guess: ""
         }
     }
@@ -31,9 +37,22 @@ export default class QEditor extends Component {
         });
     }
 
-    onSetWrongAnswers(e) {
+    onSetWrongAnswer1(e) {
         this.setState({
-            wrongAnswers: e.target.value
+            wrongAnswer1: e.target.value
+            // this.wrongAnswerArray.push(e.target.value)
+        });
+    }
+
+    onSetWrongAnswer2(e) {
+        this.setState({
+            wrongAnswer2: e.target.value
+        });
+    }
+
+    onSetWrongAnswer3(e) {
+        this.setState({
+            wrongAnswer3: e.target.value
         });
     }
 
@@ -45,17 +64,20 @@ export default class QEditor extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        this.wrongAnswerArray.push(this.state.wrongAnswer1);
+        this.wrongAnswerArray.push(this.state.wrongAnswer2);
+        this.wrongAnswerArray.push(this.state.wrongAnswer3);
         const question = {
             prompt: this.state.prompt,
             rightAnswer: this.state.rightAnswer,
-            wrongAnswers: this.state.wrongAnswers,
+            wrongAnswers: this.wrongAnswerArray,
             guess: this.state.guess
         };
         console.log(question);
-        // axios.post("http://localhost:5000/questions/add", question)
-        //     .then(function () {
-        //         window.location.replace(`http://localhost:3000/qeditor/${test.name}`);
-        //     });
+        axios.post("http://localhost:5000/questions/add", question)
+            .then(function () {
+                window.location.replace("http://localhost:3000/qeditor");
+            });
     }
 
     render() {
@@ -80,19 +102,24 @@ export default class QEditor extends Component {
                         </input>
                     </div>
                     <div className="qEditorFormField">
-                        <label>Prompt: </label>
+                        <label>Wrong Answer 1: </label>
                         <input type="text"
                             required
-                            value={this.state.prompt}
-                            onChange={this.onSetPrompt}>
+                            onChange={this.onSetWrongAnswer1}>
                         </input>
                     </div>
                     <div className="qEditorFormField">
-                        <label>Prompt: </label>
+                        <label>Wrong Answer 2: </label>
                         <input type="text"
                             required
-                            value={this.state.prompt}
-                            onChange={this.onSetPrompt}>
+                            onChange={this.onSetWrongAnswer2}>
+                        </input>
+                    </div>
+                    <div className="qEditorFormField">
+                        <label>Wrong Answer 3: </label>
+                        <input type="text"
+                            required
+                            onChange={this.onSetWrongAnswer3}>
                         </input>
                     </div>
                     <div className="qEditorFormField">
@@ -106,7 +133,7 @@ export default class QEditor extends Component {
                         </select>
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Add Questions" />
+                        <input type="submit" value="Add Question" />
                     </div>
                 </form>
             </div>
