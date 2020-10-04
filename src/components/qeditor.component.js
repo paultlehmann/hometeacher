@@ -122,17 +122,7 @@ export default class QEditor extends Component {
                             onChange={this.onSetWrongAnswer3}>
                         </input>
                     </div>
-                    <div className="qEditorFormField">
-                        <label>Test or assignment:</label>
-                        <select
-                            type="text"
-                            value={this.state.testType}
-                            onChange={this.onSetTestType}>
-                            <option value="test">Test</option>
-                            <option value="assignment">Assignment</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
+                    <div className="submitButton">
                         <input type="submit" value="Add Question" />
                     </div>
                 </form>

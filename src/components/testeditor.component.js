@@ -12,16 +12,30 @@ export default class TestEditor extends Component {
         this.onSetStudent = this.onSetStudent.bind(this);
         this.onSetIsComplete = this.onSetIsComplete.bind(this);
         this.onSetGrade = this.onSetGrade.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmitWithoutQuestions = this.onSubmitWithoutQuestions.bind(this);
+        this.onSubmitWithQuestions = this.onSubmitWithQuestions.bind(this);
+        this.onCancel = this.onCancel.bind(this);
 
         this.state = {
             name: "",
-            questionArray: [],
+            questionArray: [
+                {
+                    prompt: "Test prompt",
+                    rightAnswer: "Test right answer",
+                    wrongAnswers: [
+                        "Test wrong answer 1",
+                        "Test wrong answer 2",
+                        "Test wrong answer 3"
+                    ]
+                }
+            ],
             testType: "test",
             teacher: "5f496fff8e7faa21e4288169",
             student: "",
             isComplete: false,
-            grade: undefined
+            grade: 0,
+            submitType: "addQuestions",
+            internalID: Math.floor(Math.random() * 1000000)
         }
     }
 
@@ -67,7 +81,7 @@ export default class TestEditor extends Component {
         });
     }
 
-    onSubmit(e) {
+    onSubmitWithoutQuestions(e) {
         e.preventDefault();
         const test = {
             name: this.state.name,
@@ -76,13 +90,39 @@ export default class TestEditor extends Component {
             teacher: this.state.teacher,
             student: this.state.student,
             isComplete: this.state.isComplete,
-            grade: this.state.grade
+            grade: this.state.grade,
+            internalID: this.state.internalID
         };
-        console.log(test);
         axios.post("http://localhost:5000/tests/add", test)
             .then(function () {
-                window.location.replace(`http://localhost:3000/qeditor/${test.name}`);
+                console.log("Test saved");
+                window.location.replace("http://localhost:3000/dashboard");
             });
+    }
+
+    onCancel(e) {
+        e.preventDefault();
+        console.log("Test canceled");
+        window.location.replace("http://localhost:3000/dashboard");
+    }
+
+    onSubmitWithQuestions(e) {
+        e.preventDefault();
+        const test = {
+            name: this.state.name,
+            questionArray: this.state.questionArray,
+            testType: this.state.testType,
+            teacher: this.state.teacher,
+            student: this.state.student,
+            isComplete: this.state.isComplete,
+            grade: this.state.grade,
+            internalID: this.state.internalID
+        };
+        axios.post("http://localhost:5000/tests/add", test)
+            .then(function () {
+                console.log("Adding test questions");
+                window.location.replace(`http://localhost:3000/qeditor?testID=${this.state.internalID}`);
+            })
     }
 
     render() {
@@ -108,8 +148,14 @@ export default class TestEditor extends Component {
                             <option value="assignment">Assignment</option>
                         </select>
                     </div>
-                    <div className="form-group">
-                        <input type="submit" value="Add Questions" />
+                    <div className="submitButton">
+                        <button onClick={this.onSubmitWithQuestions.bind(this)}>Add Questions</button>
+                    </div>
+                    <div className="submitButton">
+                        <button onClick={this.onSubmitWithoutQuestions.bind(this)}>Save Test</button>
+                    </div>
+                    <div className="submitButton">
+                        <button onClick={this.onCancel.bind(this)}>Cancel</button>
                     </div>
                 </form>
             </div>

@@ -6,11 +6,10 @@ const Schema = mongoose.Schema;
 const testSchema = new Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     questionArray: {
-        type: [Question]
+        type: Array
     },
     testType: {
         type: String,
@@ -28,7 +27,10 @@ const testSchema = new Schema({
     },
     grade: {
         type: Number
-    }
+    },
+    internalID: {
+        type: Number
+    }    
 });
 
 const Test = mongoose.model("Test", testSchema);

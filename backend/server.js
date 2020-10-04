@@ -12,8 +12,8 @@ app.use(express.json());
 
 // Connection to MongoDB
 const uri = "mongodb+srv://testuser:test@users.kahfi.mongodb.net/hometeacher?retryWrites=true&w=majority";
-mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true});
-mongoose.connection.once("open", function() {
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connection.once("open", function () {
     console.log("Successfully connected to MongoDB");
 })
 
@@ -27,6 +27,6 @@ app.use("/tests", testsRouter);
 const questionsRouter = require("./routes/questions");
 app.use("/questions", questionsRouter);
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log(`Server is running on port ${port}`);
 });

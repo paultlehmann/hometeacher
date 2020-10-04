@@ -113,7 +113,7 @@ export default class Register extends Component {
                         </select>
                     </div>
 
-                    <div className="form-group">
+                    <div className="submitButton">
                         <input type="submit" value="Register" />
                     </div>
                 </form>

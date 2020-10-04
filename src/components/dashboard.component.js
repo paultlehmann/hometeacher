@@ -83,7 +83,7 @@ export default class Dashboard extends Component {
                         {this.state.loadedTests.map(function (test) {
                             return (
                                 <li>
-                                    Name: {test.name}, Type: {test.testType}, ID: {test._id}, Teacher: {this.state.currentTeacher}
+                                    Name: {test.name}, Type: {test.testType}, ID: {test.internalID}, Teacher: {this.state.currentTeacher}
                                 </li>
                             )
                         }, this)}
