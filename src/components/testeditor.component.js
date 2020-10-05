@@ -35,7 +35,7 @@ export default class TestEditor extends Component {
             isComplete: false,
             grade: 0,
             submitType: "addQuestions",
-            internalID: Math.floor(Math.random() * 1000000)
+            internalID: Math.floor(Math.random() * 1000000000)
         }
     }
 

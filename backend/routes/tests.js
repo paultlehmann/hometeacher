@@ -13,7 +13,7 @@ router.route("/").get(function (req, res) {
 // Add a test
 
 router.route("/add").post(async function (req, res) {
-   
+
     const name = req.body.name;
     const questionArray = req.body.questionArray;
     const testType = req.body.testType;
@@ -22,7 +22,7 @@ router.route("/add").post(async function (req, res) {
     const isComplete = req.body.isComplete;
     const grade = req.body.grade;
     const internalID = req.body.internalID;
- 
+
     const newTest = new Test({ name, questionArray, testType, teacher, student, isComplete, grade, internalID });
 
     newTest.save().then(function () {
@@ -35,10 +35,10 @@ router.route("/add").post(async function (req, res) {
 // Find a test by internal ID
 
 router.route("/id/:internalID").get(function (req, res) {
-  
-    const searchResult = Test.findOne({internalID: req.params.internalID});
 
-    searchResult.select("name internalID testType teacher student isComplete grade");
+    const searchResult = Test.findOne({ internalID: req.params.internalID });
+
+    searchResult.select("name internalID questionArray testType teacher student isComplete grade");
 
     searchResult.exec(function (err, test) {
         res.json(test);
@@ -54,16 +54,6 @@ router.route("/mongoid/:id").get(function (req, res) {
         });
 });
 
-// // Find test by name
-
-// router.route("/name/:name").get(function (req, res) {
-//     Test.findOne({name: `${req.name}`}).exec()
-//     .then(function (test) {
-//         res.json(test);
-//     })
-// })
-
-
 // Delete a test by ID
 
 router.route("/id/:id").delete(function (req, res) {
@@ -73,24 +63,19 @@ router.route("/id/:id").delete(function (req, res) {
         });
 });
 
-// Update a test by ID
+// Update a test's questions by internal ID
 
-router.route("/id/:id").post(function (req, res) {
-    Test.findById(req.params.id)
-        .then(function (test) {
-            test.name = req.body.name;
-            test.questionArray = req.body.questionArray;
-            test.testType = req.body.testType;
-            test.teacher = req.body.teacher;
-            test.student = req.body.student;
-            test.isComplete = req.body.isComplete;
-            test.grade = req.body.grade;
+router.route("/id/:internalID").put(function (req, res) {
+    let secondaryArray = [];
+    const searchResult = Test.findOne({ internalID: req.params.internalID });
 
-            test.save()
-                .then(function () {
-                    res.json("Test updated.");
-                });
-        });
+    searchResult.select("name internalID questionArray testType teacher student isComplete grade");
+    searchResult.exec(function (err, data) {
+        data.questionArray.push(req.body);
+        console.log(data.questionArray);
+        data.save();
+        res.json("Test questions edited");
+    });
 });
 
 module.exports = router;

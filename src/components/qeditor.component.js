@@ -21,7 +21,8 @@ export default class QEditor extends Component {
             wrongAnswer1: "",
             wrongAnswer2: "",
             wrongAnswer3: "",
-            guess: ""
+            guess: "",
+            testID: ""
         }
     }
 
@@ -74,13 +75,19 @@ export default class QEditor extends Component {
             guess: this.state.guess
         };
         console.log(question);
-        axios.post("http://localhost:5000/questions/add", question)
-            .then(function () {
-                window.location.replace("http://localhost:3000/qeditor");
-            });
+        // axios.post("http://localhost:5000/questions/add", question)
+        //     .then(function () {
+        //         window.location.replace("http://localhost:3000/qeditor");
+        //     });
     }
 
     render() {
+        let queryString = window.location.search;
+        let searchParams = new URLSearchParams(queryString);
+        let scrapedTestID = searchParams.get("testID");
+        this.setState({
+            testID: scrapedTestID
+        });
         return (
             <div>
                 <h3>Add a question</h3>
