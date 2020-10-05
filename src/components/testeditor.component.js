@@ -18,23 +18,12 @@ export default class TestEditor extends Component {
 
         this.state = {
             name: "",
-            questionArray: [
-                {
-                    prompt: "Test prompt",
-                    rightAnswer: "Test right answer",
-                    wrongAnswers: [
-                        "Test wrong answer 1",
-                        "Test wrong answer 2",
-                        "Test wrong answer 3"
-                    ]
-                }
-            ],
+            questionArray: [],
             testType: "test",
             teacher: "5f496fff8e7faa21e4288169",
             student: "",
             isComplete: false,
-            grade: 0,
-            submitType: "addQuestions",
+            grade: null,
             internalID: Math.floor(Math.random() * 1000000000)
         }
     }

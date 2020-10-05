@@ -12,7 +12,7 @@ export default class QEditor extends Component {
         this.onSetWrongAnswer2 = this.onSetWrongAnswer2.bind(this);
         this.onSetWrongAnswer3 = this.onSetWrongAnswer3.bind(this);
         this.onSetGuess = this.onSetGuess.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onSaveAndAddAnother = this.onSaveAndAddAnother.bind(this);
         this.wrongAnswerArray = [];
 
         this.state = {
@@ -41,7 +41,6 @@ export default class QEditor extends Component {
     onSetWrongAnswer1(e) {
         this.setState({
             wrongAnswer1: e.target.value
-            // this.wrongAnswerArray.push(e.target.value)
         });
     }
 
@@ -63,7 +62,7 @@ export default class QEditor extends Component {
         });
     }
 
-    onSubmit(e) {
+    onSaveAndAddAnother(e) {
         e.preventDefault();
         this.wrongAnswerArray.push(this.state.wrongAnswer1);
         this.wrongAnswerArray.push(this.state.wrongAnswer2);
@@ -75,19 +74,41 @@ export default class QEditor extends Component {
             guess: this.state.guess
         };
         console.log(question);
-        // axios.post("http://localhost:5000/questions/add", question)
-        //     .then(function () {
-        //         window.location.replace("http://localhost:3000/qeditor");
-        //     });
+        axios.put(`http://localhost:5000/tests/id/${this.state.testID}`, question)
+        .then(window.location.reload());
     }
 
-    render() {
+    onSaveAndFinish(e) {
+        e.preventDefault();
+        this.wrongAnswerArray.push(this.state.wrongAnswer1);
+        this.wrongAnswerArray.push(this.state.wrongAnswer2);
+        this.wrongAnswerArray.push(this.state.wrongAnswer3);
+        const question = {
+            prompt: this.state.prompt,
+            rightAnswer: this.state.rightAnswer,
+            wrongAnswers: this.wrongAnswerArray,
+            guess: this.state.guess
+        };
+        console.log(question);
+        axios.put(`http://localhost:5000/tests/id/${this.state.testID}`, question)
+        .then(window.location.replace("http://localhost:3000/dashboard"));
+    }
+
+    onCancel(e) {
+        e.preventDefault();
+        window.location.replace("http://localhost:3000/dashboard");
+    }
+
+    componentDidMount() {
         let queryString = window.location.search;
         let searchParams = new URLSearchParams(queryString);
         let scrapedTestID = searchParams.get("testID");
         this.setState({
             testID: scrapedTestID
         });
+    }
+    
+    render() {
         return (
             <div>
                 <h3>Add a question</h3>
@@ -130,7 +151,9 @@ export default class QEditor extends Component {
                         </input>
                     </div>
                     <div className="submitButton">
-                        <input type="submit" value="Add Question" />
+                    <button onClick={this.onSaveAndAddAnother.bind(this)}>Save and Add Another</button>
+                    <button onClick={this.onSaveAndFinish.bind(this)}>Save and Finish</button>
+                    <button onClick={this.onCancel.bind(this)}>Cancel</button>
                     </div>
                 </form>
             </div>
