@@ -14,7 +14,7 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/tests/')
+        axios.get("http://localhost:5000/tests/")
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
                 console.log(error);
             });
 
-        axios.get('http://localhost:5000/users/')
+        axios.get("http://localhost:5000/users/")
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
@@ -69,13 +69,11 @@ export default class Dashboard extends Component {
     })}
 
     render() {
-        console.log("Currently loaded tests: " + this.state.loadedTests);
-        console.log("Currently loaded users: " + this.state.loadedUsers);
-        console.log("Current teacher: " + this.state.currentTeacher);
         return (
             <div>
                 <h3><a href="/testeditor">Create a new test</a></h3>
                 <br />
+                <h3><a href="/assigntest">Assign a test</a></h3>
                 <hr />
                 <h3>Edit or assign an existing test</h3>
                 <div>
@@ -83,7 +81,7 @@ export default class Dashboard extends Component {
                         {this.state.loadedTests.map(function (test) {
                             return (
                                 <li>
-                                    Name: {test.name}, Type: {test.testType}, ID: {test.internalID}, Teacher: {this.state.currentTeacher}
+                                    <a href={`/assigntest?testID=${test.internalID}`}>Name: {test.name}, Type: {test.testType}, ID: {test.internalID}, Teacher: {this.state.currentTeacher}</a>
                                 </li>
                             )
                         }, this)}
