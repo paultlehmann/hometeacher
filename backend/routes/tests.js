@@ -32,9 +32,22 @@ router.route("/add").post(async function (req, res) {
 
 });
 
-// Find test by ID
+// Find a test by internal ID
 
-router.route("/id/:id").get(function (req, res) {
+router.route("/id/:internalID").get(function (req, res) {
+  
+    const searchResult = Test.findOne({internalID: req.params.internalID});
+
+    searchResult.select("name internalID testType teacher student isComplete grade");
+
+    searchResult.exec(function (err, test) {
+        res.json(test);
+    })
+})
+
+// Find test by default Mongo ID
+
+router.route("/mongoid/:id").get(function (req, res) {
     Test.findById(req.params.id)
         .then(function (test) {
             res.json(test);

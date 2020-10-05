@@ -108,6 +108,7 @@ export default class TestEditor extends Component {
 
     onSubmitWithQuestions(e) {
         e.preventDefault();
+        let testID = this.state.internalID;
         const test = {
             name: this.state.name,
             questionArray: this.state.questionArray,
@@ -121,7 +122,7 @@ export default class TestEditor extends Component {
         axios.post("http://localhost:5000/tests/add", test)
             .then(function () {
                 console.log("Adding test questions");
-                window.location.replace(`http://localhost:3000/qeditor?testID=${this.state.internalID}`);
+                window.location.replace(`http://localhost:3000/qeditor?testID=${testID}`);
             })
     }
 
