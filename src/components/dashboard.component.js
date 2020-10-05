@@ -72,18 +72,20 @@ export default class Dashboard extends Component {
         return (
             <div>
                 <h3><a href="/testeditor">Create a new test</a></h3>
-                <br />
-                <h3><a href="/assigntest">Assign a test</a></h3>
                 <hr />
                 <h3>Edit or assign an existing test</h3>
                 <div>
                     <ul>
                         {this.state.loadedTests.map(function (test) {
+                            if (test.student == "") {
                             return (
                                 <li>
-                                    <a href={`/assigntest?testID=${test.internalID}`}>Name: {test.name}, Type: {test.testType}, ID: {test.internalID}, Teacher: {this.state.currentTeacher}</a>
+                                    <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                    <a href={`/qeditor?testID=${test.internalID}`}>Add Questions</a><br />
+                                    <a href={`/assigntest?testID=${test.internalID}`}>Assign to Students</a><br /><br />
                                 </li>
                             )
+                            }
                         }, this)}
                     </ul>
                 </div>

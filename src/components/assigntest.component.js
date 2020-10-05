@@ -6,32 +6,15 @@ export default class AssignTest extends Component {
     constructor(props) {
         super(props);
 
-        this.checkboxHandler = this.checkboxHandler.bind(this);
+        this.onSubmitCheckboxes = this.onSubmitCheckboxes.bind(this);
         this.onToggleCheckbox = this.onToggleCheckbox.bind(this);
+        this.onCancel = this.onCancel.bind(this);
 
         this.state = {
-            testID: "",
+            testID: 0,
             loadedUsers: [],
-            assignees: [],
-            assigneeIncrementer: 1
-    }
-}
-
-    checkboxHandler(e) {
-        e.preventDefault();
-        let assigneeArray = this.state.assignees;
-        console.log(assigneeArray);
-        for (const assignee of assigneeArray) {
-            axios.get(`http://localhost:5000/tests/id/${this.state.testID}`)
-            .then(response => {
-                let importedTest = response.data;
-                importedTest.student = assignee;
-                importedTest.internalID += 1;
-                axios.post("http://localhost:5000/tests/add", importedTest)
-                    }, function () {
-                        console.log("Loaded tests -" + this.state.loadedTests);
-                    });
-                }
+            assignees: []
+        }
     }
 
     onToggleCheckbox(e) {
@@ -52,7 +35,27 @@ export default class AssignTest extends Component {
         )
     }
 
+    onSubmitCheckboxes(e) {
+        e.preventDefault();
+        let assigneeArray = this.state.assignees;
+        console.log(assigneeArray);
+        for (const assignee of assigneeArray) {
+            axios.get(`http://localhost:5000/tests/id/${this.state.testID}`)
+                .then(response => {
+                    let importedTest = response.data;
+                    importedTest.student = assignee;
+                    importedTest.internalID += 1;
+                    axios.post("http://localhost:5000/tests/add", importedTest)
+                }, function () {
+                    console.log("Loaded tests -" + this.state.loadedTests);
+                });
+        }
+    }
 
+    onCancel(e) {
+        e.preventDefault();
+        window.location.replace("/dashboard");
+    }
 
     componentDidMount() {
         let queryString = window.location.search;
@@ -90,9 +93,9 @@ export default class AssignTest extends Component {
                                 return (
                                     <li>
                                         <label>
-                                            <input name= {user._id}
+                                            <input name={user._id}
                                                 type="checkbox"
-                                                onChange = {this.onToggleCheckbox}
+                                                onChange={this.onToggleCheckbox}
                                             />
                                         </label>
                                         {user.firstName} {user.lastName} (ID: {user._id})
@@ -100,7 +103,8 @@ export default class AssignTest extends Component {
                                 )
                             }, this)}
                         </ul>
-                        <button onClick = {this.checkboxHandler.bind(this)}>Assign</button>
+                        <button onClick = {this.onSubmitCheckboxes.bind(this)}>Assign</button>
+                        <button onClick = {this.onCancel.bind(this)}>Cancel</button>
                     </form>
                 </div>
             </div>
