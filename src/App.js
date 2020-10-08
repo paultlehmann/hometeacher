@@ -20,7 +20,8 @@ function App() {
       <div className="container">
         <Navbar />
         <br />
-        <Route path = "/" exact component = {Register} />
+        <Route path = "/" exact component = {Login} />
+        <Route path = "/register" component = {Register} />
         <Route path = "/dashboard" component = {Dashboard} />
         <Route path = "/testeditor" component = {TestEditor} />
         <Route path = "/qeditor" component = {QEditor} />

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import setAuthToken from "../utils/setAuthToken";
 
 export default class Login extends Component {
     constructor(props) {
@@ -30,6 +32,16 @@ export default class Login extends Component {
         };
 
         console.log(loginData);
+
+        axios.post("http://localhost:5000/users/login", loginData)
+        .then(function (res) {
+            const token = res.data.token;
+            localStorage.setItem("jwtToken", token);
+            setAuthToken(token);
+            const decodedToken = jwt_decode(token);
+            console.log("Current user: " + JSON.stringify(decodedToken));
+            window.location.replace("/dashboard");
+        })
     }
 
     render() {
@@ -57,6 +69,10 @@ export default class Login extends Component {
                     </div>
                     <div className="submitButton">
                         <button type="submit">Log In</button>
+                    </div>
+                    <br />
+                    <div>
+                        <h2>No account? <a href="/register">Register one now!</a></h2>
                     </div>
                 </form>
             </div>

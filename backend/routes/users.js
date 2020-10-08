@@ -44,6 +44,7 @@ router.route("/add").post(function (req, res) {
 router.route("/login").post(function (req, res) {
     const username = req.body.username;
     const password = req.body.password;
+    const accountType = req.body.accountType;
 
     User.findOne({ username })
         .then(function (user) {
@@ -57,7 +58,8 @@ router.route("/login").post(function (req, res) {
                 const jwtPayload = {
                     id: user._id,
                     lastName: user.lastName,
-                    firstName: user.firstName
+                    firstName: user.firstName,
+                    accountType: user.accountType
                 }
                 jwt.sign(
                     jwtPayload,
@@ -68,6 +70,7 @@ router.route("/login").post(function (req, res) {
                     function (err, token) {
                         res.json({
                             success: true,
+                            accountType: accountType,
                             token: "Bearer " + token
                         })
                     }
