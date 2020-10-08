@@ -46,8 +46,9 @@ export default class AssignTest extends Component {
                     importedTest.student = assignee;
                     importedTest.internalID += 1;
                     axios.post("http://localhost:5000/tests/add", importedTest)
+                    .then(window.location.replace("/dashboard"))
                 }, function () {
-                    console.log("Loaded tests -" + this.state.loadedTests);
+                    
                 });
         }
     }
