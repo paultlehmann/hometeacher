@@ -89,6 +89,7 @@ export default class AssignTest extends Component {
 
 
                             {this.state.loadedUsers.map(function (user) {
+                                if (user.accountType == "student") {
                                 return (
                                     <li>
                                         <label>
@@ -99,7 +100,7 @@ export default class AssignTest extends Component {
                                         </label>
                                         {user.firstName} {user.lastName} (ID: {user._id})
                                     </li>
-                                )
+                                )}
                             }, this)}
                         </ul>
                         <button onClick = {this.onSubmitCheckboxes.bind(this)}>Assign</button>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 export default class Dashboard extends Component {
 
@@ -9,7 +10,7 @@ export default class Dashboard extends Component {
         this.state = {
             loadedTests: [],
             loadedUsers: [],
-            currentTeacher: ""
+            token: localStorage.getItem("jwtToken")
         };
     }
 
@@ -69,6 +70,18 @@ export default class Dashboard extends Component {
     })}
 
     render() {
+        console.log(this.state.token);
+        let decodedToken = {
+            id: 0,
+            accountType: ""
+        }
+        if (this.state.token) {
+        decodedToken = jwt_decode(this.state.token);
+        console.log(decodedToken);
+        }
+        if (decodedToken.accountType == "student") {
+            window.location.replace("/stdashboard");
+        }
         return (
             <div>
                 <h3><a href="/testeditor">Create a new test</a></h3>
@@ -77,7 +90,7 @@ export default class Dashboard extends Component {
                 <div>
                     <ul>
                         {this.state.loadedTests.map(function (test) {
-                            if (test.student == "") {
+                            if (test.student == "" && test.teacher == decodedToken.id) {
                             return (
                                 <li>
                                     <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />

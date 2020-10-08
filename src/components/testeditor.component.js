@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 export default class TestEditor extends Component {
     constructor(props) {
@@ -24,7 +25,8 @@ export default class TestEditor extends Component {
             student: "",
             isComplete: false,
             grade: null,
-            internalID: Math.floor(Math.random() * 1000000000)
+            internalID: Math.floor(Math.random() * 1000000000),
+            token: localStorage.getItem("jwtToken")
         }
     }
 
@@ -116,6 +118,11 @@ export default class TestEditor extends Component {
     }
 
     render() {
+        console.log(this.state.token);
+        let decodedToken = jwt_decode(this.state.token);
+        this.state.teacher = decodedToken.id;
+        console.log(decodedToken);
+        console.log(this.state.teacher);
         return (
             <div>
                 <h3>Create test/assignment</h3>
