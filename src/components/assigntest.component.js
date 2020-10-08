@@ -68,7 +68,6 @@ export default class AssignTest extends Component {
         axios.get("http://localhost:5000/users/")
             .then(response => {
                 if (response.data.length > 0) {
-
                     this.setState({
                         loadedUsers: response.data
                     }, function () {

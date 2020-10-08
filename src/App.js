@@ -8,8 +8,9 @@ import Dashboard from "./components/dashboard.component";
 import TestEditor from "./components/testeditor.component";
 import QEditor from "./components/qeditor.component";
 import AssignTest from "./components/assigntest.component";
-import StDashboard from './components/stdashboard.component';
-import TestTaker from './components/testtaker.component';
+import StDashboard from "./components/stdashboard.component";
+import TestTaker from "./components/testtaker.component";
+import Login from "./components/login.component";
 
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path = "/assigntest" component = {AssignTest} />
         <Route path = "/stdashboard" component = {StDashboard} />
         <Route path = "/testtaker" component = {TestTaker} />
+        <Route path = "/login" component = {Login} />
       </div>
     </Router>
   );

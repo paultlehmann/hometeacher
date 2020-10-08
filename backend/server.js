@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const passport = require("passport");
+
+const Users = require("./routes/users");
 
 const app = express();
 
@@ -16,6 +19,11 @@ mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
 mongoose.connection.once("open", function () {
     console.log("Successfully connected to MongoDB");
 })
+
+// Passport middleware & config
+app.use(passport.initialize());
+
+require("./config/passport") (passport);
 
 // Routers
 const usersRouter = require("./routes/users");
