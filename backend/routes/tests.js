@@ -46,6 +46,20 @@ router.route("/id/:internalID").get(function (req, res) {
     })
 })
 
+// Delete a test by internal ID
+
+router.route("/id/:internalID").delete(function (req, res) {
+
+    const searchResult = Test.findOne({ internalID: req.params.internalID });
+
+    searchResult.select("name internalID questionArray testType teacher student isComplete grade");
+
+    searchResult.exec(function (err, test) {
+        test.remove();
+        res.json("Test deleted.");
+    })
+})
+
 // Find test by default Mongo ID
 
 router.route("/mongoid/:id").get(function (req, res) {
@@ -55,19 +69,9 @@ router.route("/mongoid/:id").get(function (req, res) {
         });
 });
 
-// Delete a test by ID
-
-router.route("/id/:id").delete(function (req, res) {
-    Test.findByIdAndDelete(req.params.id)
-        .then(function () {
-            res.json("Test deleted.");
-        });
-});
-
 // Update a test's questions by internal ID
 
 router.route("/id/:internalID").put(function (req, res) {
-    let secondaryArray = [];
     const searchResult = Test.findOne({ internalID: req.params.internalID });
 
     searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
@@ -79,22 +83,22 @@ router.route("/id/:internalID").put(function (req, res) {
     });
 });
 
-// Update a test's guesses by internal ID
+// // Update a test's guesses by internal ID
 
-router.route("/submit/:internalID").put(function (req, res) {
-    console.log(req.params);
-    const searchResult = Test.findOne({ internalID: req.params.internalID, student: req.params.student });
+// router.route("/submit/:internalID").put(function (req, res) {
+//     console.log(req.params);
+//     const searchResult = Test.findOne({ internalID: req.params.internalID, student: req.params.student });
 
-    searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
-    searchResult.exec(function (err, data) {
-        // console.log(data);
-        // console.log(searchResult);
-        // data.guesses = req.body.guesses;
-        // data.isComplete = req.body.isComplete;
-        // console.log(data.guesses);
-        // data.save();
-        // res.json("Test questions edited");
-    });
-});
+//     searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
+//     searchResult.exec(function (err, data) {
+//         // console.log(data);
+//         // console.log(searchResult);
+//         // data.guesses = req.body.guesses;
+//         // data.isComplete = req.body.isComplete;
+//         // console.log(data.guesses);
+//         // data.save();
+//         // res.json("Test questions edited");
+//     });
+// });
 
 module.exports = router;

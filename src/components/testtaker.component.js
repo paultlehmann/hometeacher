@@ -21,7 +21,8 @@ export default class TestTaker extends Component {
             testID: 0,
             currentGuesses: {},
             token: localStorage.getItem("jwtToken"),
-            student: ""
+            student: "",
+            oldTestToDelete: "0"
         };
     }
 
@@ -77,12 +78,12 @@ export default class TestTaker extends Component {
             student: this.state.student,
             isComplete: true,
             grade: this.state.loadedTest.grade,
-            internalID: Number(this.state.testID),
+            internalID: Number(this.state.testID) + 1,
             guesses: this.state.currentGuesses
         }
         axios.delete(`http://localhost:5000/tests/id/${this.state.testID}`)
         .then(axios.post("http://localhost:5000/tests/add", submittedTest))
-        .then(window.location.replace("http://localhost:3000/dashboard"));
+        .then(window.location.replace("http://localhost:3000/stdashboard"));
     }
 
     // onSaveTestProgress(e) {
