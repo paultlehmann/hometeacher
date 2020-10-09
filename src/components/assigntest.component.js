@@ -9,11 +9,15 @@ export default class AssignTest extends Component {
         this.onSubmitCheckboxes = this.onSubmitCheckboxes.bind(this);
         this.onToggleCheckbox = this.onToggleCheckbox.bind(this);
         this.onCancel = this.onCancel.bind(this);
+        this.happyMessageCheck = this.happyMessageCheck.bind(this);
+        this.happyMessageCheck2 = this.happyMessageCheck2.bind(this);
 
         this.state = {
             testID: 0,
             loadedUsers: [],
-            assignees: []
+            assignees: [],
+            happyMessage: false,
+            studentsAssignedTo: 0
         }
     }
 
@@ -42,15 +46,19 @@ export default class AssignTest extends Component {
         for (const assignee of assigneeArray) {
             axios.get(`http://localhost:5000/tests/id/${this.state.testID}`)
                 .then(response => {
+                    console.log(assignee);
                     let importedTest = response.data;
                     importedTest.student = assignee;
-                    importedTest.internalID += 1;
+                    importedTest.internalID = Math.floor(Math.random() * 1000000000);
                     axios.post("http://localhost:5000/tests/add", importedTest)
-                    .then(window.location.replace("/dashboard"))
                 }, function () {
-                    
+                    console.log("Added test.")
                 });
         }
+        this.setState({
+            happyMessage: true,
+            studentsAssignedTo: assigneeArray.length
+        })
     }
 
     onCancel(e) {
@@ -58,12 +66,25 @@ export default class AssignTest extends Component {
         window.location.replace("/dashboard");
     }
 
+    happyMessageCheck() {
+        if (this.state.happyMessage) {
+            return `Success! Test has been assigned to ${this.state.studentsAssignedTo} student(s).`
+        }
+    }
+
+    happyMessageCheck2() {
+        if (this.state.happyMessage) {
+            return "Click here to return to your dashboard."
+        }
+    }
+
     componentDidMount() {
         let queryString = window.location.search;
         let searchParams = new URLSearchParams(queryString);
         let scrapedTestID = searchParams.get("testID");
         this.setState({
-            testID: scrapedTestID
+            testID: scrapedTestID,
+            assignedTestInternalID: scrapedTestID
         });
 
         axios.get("http://localhost:5000/users/")
@@ -108,6 +129,12 @@ export default class AssignTest extends Component {
                         <button onClick = {this.onCancel.bind(this)}>Cancel</button>
                     </form>
                 </div>
+                <br />
+                <div class = "happy-message">
+                {this.happyMessageCheck()}<br />
+                </div>
+                <div class = "click-to-return"></div>
+                <a href = "/dashboard">{this.happyMessageCheck2()}</a>
             </div>
         )
     }

@@ -21,7 +21,7 @@ export default class TestEditor extends Component {
             name: "",
             questionArray: [],
             testType: "test",
-            teacher: "5f496fff8e7faa21e4288169",
+            teacher: "",
             student: "",
             isComplete: false,
             grade: null,

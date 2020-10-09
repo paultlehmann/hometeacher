@@ -70,12 +70,30 @@ router.route("/id/:internalID").put(function (req, res) {
     let secondaryArray = [];
     const searchResult = Test.findOne({ internalID: req.params.internalID });
 
-    searchResult.select("name internalID questionArray testType teacher student isComplete grade");
+    searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
     searchResult.exec(function (err, data) {
         data.questionArray.push(req.body);
         console.log(data.questionArray);
         data.save();
         res.json("Test questions edited");
+    });
+});
+
+// Update a test's guesses by internal ID
+
+router.route("/submit/:internalID").put(function (req, res) {
+    console.log(req.params);
+    const searchResult = Test.findOne({ internalID: req.params.internalID, student: req.params.student });
+
+    searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
+    searchResult.exec(function (err, data) {
+        // console.log(data);
+        // console.log(searchResult);
+        // data.guesses = req.body.guesses;
+        // data.isComplete = req.body.isComplete;
+        // console.log(data.guesses);
+        // data.save();
+        // res.json("Test questions edited");
     });
 });
 

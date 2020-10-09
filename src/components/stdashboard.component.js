@@ -75,7 +75,6 @@ export default class StDashboard extends Component {
                                     )
                                 }
                             }, this)}
-                        }
                         </ul>
                     </div>
                     <br />

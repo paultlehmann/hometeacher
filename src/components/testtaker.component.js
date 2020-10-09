@@ -77,13 +77,12 @@ export default class TestTaker extends Component {
             student: this.state.student,
             isComplete: true,
             grade: this.state.loadedTest.grade,
-            internalID: this.state.loadedTest.internalID + 1,
+            internalID: Number(this.state.testID),
             guesses: this.state.currentGuesses
         }
-        console.log(submittedTest);
-        axios.post("http://localhost:5000/tests/add", submittedTest);
-        console.log(`You submitted test #${this.state.loadedTest.internalID}`);
-        window.location.replace("/stdashboard");
+        axios.delete(`http://localhost:5000/tests/id/${this.state.testID}`)
+        .then(axios.post("http://localhost:5000/tests/add", submittedTest))
+        .then(window.location.replace("http://localhost:3000/dashboard"));
     }
 
     // onSaveTestProgress(e) {
