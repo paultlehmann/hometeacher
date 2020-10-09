@@ -19,7 +19,7 @@ export default class TestTaker extends Component {
                 questionArray: []
             },
             testID: 0,
-            currentGuesses: [],
+            currentGuesses: {},
             token: localStorage.getItem("jwtToken"),
             student: ""
         };
@@ -52,21 +52,17 @@ export default class TestTaker extends Component {
     }
 
     onChange(e) {
-        let guessArray = this.state.currentGuesses;
-        let index;
-        for (let guess of guessArray) {
-            if (guess.prompt == e.target.name) {
-                console.log(e.target.name);
-                delete guess.prompt;
-                delete guess.guess;
+        let guessObject = this.state.currentGuesses;
+        let objectKey = e.target.name;
+        let objectValue = e.target.value;
 
-            }
-        }
-        guessArray.push({
-            prompt: e.target.name,
-            guess: e.target.value
+        guessObject.[objectKey] = objectValue;
+
+        console.log(guessObject);
+
+        this.setState({
+            currentGuesses: guessObject
         })
-        this.state.currentGuesses = guessArray;
         console.log(this.state.currentGuesses);
     }
 

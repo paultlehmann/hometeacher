@@ -58,7 +58,24 @@ export default class StDashboard extends Component {
                                     </li>
                                 )
                                 }
+                                if (test.student == decodedToken.id && test.isComplete == true && test.grade == null) {
+                                    return (
+                                        <li>
+                                            <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                            Test submitted, awaiting grade<br />
+                                        </li>
+                                    )
+                                }
+                                if (test.student == decodedToken.id && test.isComplete == true && test.grade != null) {
+                                    return (
+                                        <li>
+                                            <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                            Test graded, your grade: {test.grade}<br />
+                                        </li>
+                                    )
+                                }
                             }, this)}
+                        }
                         </ul>
                     </div>
                     <br />

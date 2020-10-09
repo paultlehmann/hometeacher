@@ -14,9 +14,6 @@ const questionSchema = new Schema({
     wrongAnswers: {
         type: [String],
         required: true
-    },
-    guess: {
-        type: String
     }
 });
 

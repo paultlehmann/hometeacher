@@ -30,7 +30,10 @@ const testSchema = new Schema({
     },
     internalID: {
         type: Number
-    }    
+    },
+    guesses: {
+        type: Object
+    }
 });
 
 const Test = mongoose.model("Test", testSchema);

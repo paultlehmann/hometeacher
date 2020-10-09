@@ -69,6 +69,10 @@ export default class Dashboard extends Component {
                 )}
     })}
 
+    gradeTest() {
+        console.log("Graded.");
+    }
+
     render() {
         console.log(this.state.token);
         let decodedToken = {
@@ -105,6 +109,20 @@ export default class Dashboard extends Component {
                 <br />
                 <hr />
                 <h3>Grade a submitted test</h3>
+                <div>
+                    <ul>
+                        {this.state.loadedTests.map(function (test) {
+                            if (test.isComplete && test.teacher == decodedToken.id) {
+                            return (
+                                <li>
+                                    <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                    <button onClick = {this.gradeTest} >Grade</button>
+                                </li>
+                            )
+                            }
+                        }, this)}
+                    </ul>
+                </div>
             </div>
         );
     }
