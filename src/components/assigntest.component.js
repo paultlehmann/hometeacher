@@ -68,7 +68,7 @@ export default class AssignTest extends Component {
 
     happyMessageCheck() {
         if (this.state.happyMessage) {
-            return `Success! Test has been assigned to ${this.state.studentsAssignedTo} student(s).`
+            return `Test successfully assigned to ${this.state.studentsAssignedTo} student(s).`
         }
     }
 
@@ -133,8 +133,9 @@ export default class AssignTest extends Component {
                 <div class = "happy-message">
                 {this.happyMessageCheck()}<br />
                 </div>
-                <div class = "click-to-return"></div>
+                <div class = "click-to-return">
                 <a href = "/dashboard">{this.happyMessageCheck2()}</a>
+                </div>
             </div>
         )
     }

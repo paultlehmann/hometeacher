@@ -23,8 +23,9 @@ router.route("/add").post(async function (req, res) {
     const grade = req.body.grade;
     const internalID = req.body.internalID;
     const guesses = req.body.guesses;
+    const scores = req.body.scores;
 
-    const newTest = new Test({ name, questionArray, testType, teacher, student, isComplete, grade, internalID, guesses });
+    const newTest = new Test({ name, questionArray, testType, teacher, student, isComplete, grade, internalID, guesses, scores });
 
     newTest.save().then(function () {
         res.json("Test added");
@@ -83,22 +84,15 @@ router.route("/id/:internalID").put(function (req, res) {
     });
 });
 
-// // Update a test's guesses by internal ID
+// Add a grade to a test by internal ID
 
-// router.route("/submit/:internalID").put(function (req, res) {
-//     console.log(req.params);
-//     const searchResult = Test.findOne({ internalID: req.params.internalID, student: req.params.student });
+router.route("/grade/:internalID").put(function (req, res) {
+    const searchResult = Test.findOne({ internalID: req.params.internalID });
 
-//     searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
-//     searchResult.exec(function (err, data) {
-//         // console.log(data);
-//         // console.log(searchResult);
-//         // data.guesses = req.body.guesses;
-//         // data.isComplete = req.body.isComplete;
-//         // console.log(data.guesses);
-//         // data.save();
-//         // res.json("Test questions edited");
-//     });
-// });
+    searchResult.select("name internalID questionArray testType teacher student isComplete grade guesses");
+    searchResult.exec(function (err, data) {
+        console.log(data);
+    });
+});
 
 module.exports = router;

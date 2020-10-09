@@ -22,7 +22,8 @@ export default class TestTaker extends Component {
             currentGuesses: {},
             token: localStorage.getItem("jwtToken"),
             student: "",
-            oldTestToDelete: "0"
+            oldTestToDelete: "0",
+            happyMessage: ""
         };
     }
 
@@ -79,11 +80,16 @@ export default class TestTaker extends Component {
             isComplete: true,
             grade: this.state.loadedTest.grade,
             internalID: Number(this.state.testID) + 1,
-            guesses: this.state.currentGuesses
+            guesses: this.state.currentGuesses,
+            scores: {}
         }
+        console.log(submittedTest);
         axios.delete(`http://localhost:5000/tests/id/${this.state.testID}`)
         .then(axios.post("http://localhost:5000/tests/add", submittedTest))
-        .then(window.location.replace("http://localhost:3000/stdashboard"));
+        .then(this.setState ({
+            happyMessage: "Test successfully submitted for grading.",
+            happyMessage2: "Click here to return to your dashboard."
+        }))
     }
 
     // onSaveTestProgress(e) {
@@ -136,6 +142,13 @@ export default class TestTaker extends Component {
                         {/* <button onClick={this.onSaveTestProgress.bind(this)}>Save Progress</button> */}
                         <button onClick={this.onCancel.bind(this)}>Cancel</button>
                     </form>
+                </div>
+                <br />
+                <div class = "happy-message">
+                {this.state.happyMessage}<br />
+                </div>
+                <div class = "click-to-return">
+                <a href = "/stdashboard">{this.state.happyMessage2}</a>
                 </div>
             </div>
         )

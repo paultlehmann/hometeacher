@@ -7,6 +7,8 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
 
+        this.gradeTest = this.gradeTest.bind(this);
+
         this.state = {
             loadedTests: [],
             loadedUsers: [],
@@ -42,9 +44,6 @@ export default class Dashboard extends Component {
             .catch((error) => {
                 console.log(error);
             })
-
-            this.getUserByID("5f4432a01b2c1d34343fe790");
-
     }
 
     oldGetUserByID(id) {
@@ -60,17 +59,43 @@ export default class Dashboard extends Component {
         let getURL = "http://localhost:5000/users/id/" + id;
         console.log(getURL);
         axios.get(getURL)
-        .then(response => {
-            console.log(response.data);
-            if (response.data) {
-                this.setState({
-                    currentTeacher: response.data.firstName + " " + response.data.lastName
-            }
-                )}
-    })}
+            .then(response => {
+                console.log(response.data);
+                if (response.data) {
+                    this.setState({
+                        currentTeacher: response.data.firstName + " " + response.data.lastName
+                    }
+                    )
+                }
+            })
+    }
 
-    gradeTest() {
-        console.log("Graded.");
+    gradeTest(test) {
+
+        let rightAnswers = 0;
+        let wrongAnswers = 0;
+        for (let question of test.questionArray) {
+
+            let prompt = question.prompt;
+            if (question.rightAnswer == test.guesses[prompt]) {
+                rightAnswers += 1;
+            } else {
+                wrongAnswers += 1;
+            }
+        }
+        console.log(rightAnswers);
+        console.log(wrongAnswers);
+        let scoresObject = {
+            rightAnswers: rightAnswers,
+            wrongAnswers: wrongAnswers
+        }
+        console.log(scoresObject);
+        test["scores"] = scoresObject;
+        let test2 = test
+        console.log(test2);
+        axios.delete(`http://localhost:5000/tests/id/${test.internalID}`)
+        .then(axios.post("http://localhost:5000/tests/add", test2))
+        .then(window.location.replace("/dashboard"));
     }
 
     render() {
@@ -80,8 +105,8 @@ export default class Dashboard extends Component {
             accountType: ""
         }
         if (this.state.token) {
-        decodedToken = jwt_decode(this.state.token);
-        console.log(decodedToken);
+            decodedToken = jwt_decode(this.state.token);
+            console.log(decodedToken);
         }
         if (decodedToken.accountType == "student") {
             window.location.replace("/stdashboard");
@@ -90,35 +115,63 @@ export default class Dashboard extends Component {
             <div>
                 <h3><a href="/testeditor">Create a new test</a></h3>
                 <hr />
-                <h3>Edit or assign an existing test</h3>
+                <br />
+                <div>
+                    <h3>Edit or assign an existing test</h3>
+                    <hr />
+                </div>
                 <div>
                     <ul>
                         {this.state.loadedTests.map(function (test) {
                             if (test.student == "" && test.teacher == decodedToken.id) {
-                            return (
-                                <li>
-                                    <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
-                                    <a href={`/qeditor?testID=${test.internalID}`}>Add Questions</a><br />
-                                    <a href={`/assigntest?testID=${test.internalID}`}>Assign to Students</a><br /><br />
-                                </li>
-                            )
+                                return (
+                                    <li>
+                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length}<br />
+                                        <a href={`/qeditor?testID=${test.internalID}`}>Add Questions</a><br />
+                                        <a href={`/assigntest?testID=${test.internalID}`}>Assign to Students</a><br /><br />
+                                    </li>
+                                )
                             }
                         }, this)}
                     </ul>
                 </div>
                 <br />
-                <hr />
-                <h3>Grade a submitted test</h3>
+                <div>
+                    <h3>Grade a submitted test</h3>
+                    <hr />
+                </div>
                 <div>
                     <ul>
                         {this.state.loadedTests.map(function (test) {
-                            if (test.isComplete && test.teacher == decodedToken.id) {
-                            return (
-                                <li>
-                                    <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
-                                    <button onClick = {this.gradeTest} >Grade</button>
-                                </li>
-                            )
+                            if (test.isComplete && test.teacher == decodedToken.id && test.guesses && !test.scores) {
+                                return (
+                                    <li>
+                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length}<br />
+                                        <button onClick={() => this.gradeTest(test)} >Grade</button>
+                                    </li>
+                                )
+                            }
+                        }, this)}
+                    </ul>
+                </div>
+                <br />
+                <div>
+                    <h3>Graded and returned tests</h3>
+                    <hr />
+                </div>
+                <div>
+                    <ul>
+                        {this.state.loadedTests.map(function (test) {
+                            if (test.isComplete && test.teacher == decodedToken.id && test.scores && test.scores != {}) {
+                                let scoreDenominator = 0;
+                                if (test.scores) {
+                                    scoreDenominator = test.scores.rightAnswers + test.scores.wrongAnswers}
+                                return (
+                                    <li>
+                                        <b>{test.name}</b> -- Type: {test.testType}<br />
+                                            Grade: {test.scores.rightAnswers} / {scoreDenominator}<br />
+                                    </li>
+                                )
                             }
                         }, this)}
                     </ul>

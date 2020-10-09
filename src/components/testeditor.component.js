@@ -82,7 +82,9 @@ export default class TestEditor extends Component {
             student: this.state.student,
             isComplete: this.state.isComplete,
             grade: this.state.grade,
-            internalID: this.state.internalID
+            internalID: this.state.internalID,
+            guesses: this.state.guesses,
+            scores: {}
         };
         axios.post("http://localhost:5000/tests/add", test)
             .then(function () {
@@ -108,7 +110,9 @@ export default class TestEditor extends Component {
             student: this.state.student,
             isComplete: this.state.isComplete,
             grade: this.state.grade,
-            internalID: this.state.internalID
+            internalID: this.state.internalID,
+            guesses: this.state.guesses,
+            scores: this.state.scores
         };
         axios.post("http://localhost:5000/tests/add", test)
             .then(function () {

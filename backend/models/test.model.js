@@ -33,7 +33,10 @@ const testSchema = new Schema({
     },
     guesses: {
         type: Object
-    }
+    },
+    scores: {
+        type: Object
+    }, 
 });
 
 const Test = mongoose.model("Test", testSchema);

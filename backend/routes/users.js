@@ -13,7 +13,7 @@ router.route("/").get(function (req, res) {
     })
 });
 
-// Find user by ID
+// Find user by default Mongo ID
 
 router.route("/id/:id").get(function (req, res) {
     User.findById(req.params.id)
@@ -37,7 +37,6 @@ router.route("/add").post(function (req, res) {
     });
 
 });
-
 
 // Log in
 

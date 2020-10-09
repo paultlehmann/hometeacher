@@ -11,13 +11,17 @@ export default class Register extends Component {
         this.onSetLastName = this.onSetLastName.bind(this);
         this.onSetAccountType = this.onSetAccountType.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        // this.continueToDash = this.continueToDash.bind(this);
 
         this.state = {
             username: "",
             password: "",
             firstName: "",
             lastName: "",
-            accountType: "teacher"
+            accountType: "teacher",
+            happyMessage: "",
+            happyMessage2: "",
+            workingUser: {}
         }
     }
 
@@ -48,6 +52,7 @@ export default class Register extends Component {
     }
 
     onSubmit(e) {
+        let that = this;
         e.preventDefault();
         const user = {
             username: this.state.username,
@@ -56,12 +61,29 @@ export default class Register extends Component {
             lastName: this.state.lastName,
             accountType: this.state.accountType
         };
+        that.setState ({
+            workingUser: user
+        })
         console.log(user);
         axios.post("http://localhost:5000/users/add", user)
-            .then(function () {
-                window.location.replace("http://localhost:3000/dashboard");
+        .then(function () {
+            // document.getElementById("continueButton").style.display="block";
+                that.setState ({
+                    happyMessage: "Registration successful!",
+                    happyMessage2: "Continue to login page"
+                })
             });
     }
+
+    // continueToDash(e) {
+    //     e.preventDefault()
+    //     let userToPost = this.state.workingUser;
+    //     axios.post("http://localhost:5000/users/add", userToPost);
+    // }
+
+    // componentDidMount() {
+    //     document.getElementById("continueButton").style.display="none";
+    // }
 
     render() {
         return (
@@ -117,6 +139,13 @@ export default class Register extends Component {
                         <input type="submit" value="Register" />
                     </div>
                 </form>
+                <br />
+                <div class = "happy-message">
+                {this.state.happyMessage}<br />
+                </div>
+                <div class = "click-to-return">
+                <a href="/login">{this.state.happyMessage2}</a>
+                </div>
             </div>
         )
     }
