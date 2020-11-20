@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
+import "../styles.css";
 
 export default class Login extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ export default class Login extends Component {
     }
 
     onChange(e) {
-        this.setState (
+        this.setState(
             {
                 [e.target.id]: e.target.value
             }
@@ -36,19 +37,23 @@ export default class Login extends Component {
         console.log(loginData);
 
         axios.post("http://localhost:5000/users/login", loginData)
-        .then(function (res) {
-            const token = res.data.token;
-            localStorage.setItem("jwtToken", token);
-            setAuthToken(token);
-            const decodedToken = jwt_decode(token);
-            console.log("Current user: " + JSON.stringify(decodedToken));
-            window.location.replace("/dashboard");
-        })
-        .catch(function(err) {
-            that.setState({
-                sadMessage: "ERROR: Invalid username or password."
+            .then(function (res) {
+                const token = res.data.token;
+                localStorage.setItem("jwtToken", token);
+                setAuthToken(token);
+                const decodedToken = jwt_decode(token);
+                console.log("Current user: " + JSON.stringify(decodedToken));
+                if (decodedToken.accountType == "student") {
+                    window.location.replace("/stdashboard");
+                } else {
+                    window.location.replace("/dashboard");
+                }
             })
-        })
+            .catch(function (err) {
+                that.setState({
+                    sadMessage: "ERROR: Invalid username or password."
+                })
+            })
     }
 
     render() {
@@ -62,7 +67,7 @@ export default class Login extends Component {
                             required
                             value={this.state.username}
                             onChange={this.onChange}
-                            id = "username">
+                            id="username">
                         </input>
                     </div>
                     <div className="registerFormField">
@@ -71,7 +76,7 @@ export default class Login extends Component {
                             required
                             value={this.state.password}
                             onChange={this.onChange}
-                            id = "password"
+                            id="password"
                         />
                     </div>
                     <div className="submitButton">

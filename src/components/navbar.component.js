@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
+import "../styles.css";
 
 
 export default class Navbar extends Component {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import "../styles.css";
 
 export default class StDashboard extends Component {
 
@@ -54,7 +55,7 @@ export default class StDashboard extends Component {
                             if (test.student == decodedToken.id && test.isComplete == false) {
                                 return (
                                     <li>
-                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length}<br />
                                         <a href={`/testtaker?testID=${test.internalID}`}>Take Test</a><br />
                                     </li>
                                 )
@@ -74,7 +75,7 @@ export default class StDashboard extends Component {
                             if (test.student == decodedToken.id && test.isComplete == true && !test.scores) {
                                 return (
                                     <li>
-                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length}<br />
                                             Test submitted, awaiting grade<br />
                                     </li>
                                 )
@@ -95,7 +96,7 @@ export default class StDashboard extends Component {
                                 console.log(test);
                                 return (
                                     <li>
-                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length} -- ID: {test.internalID}<br />
+                                        <b>{test.name}</b> -- Type: {test.testType} -- Questions: {test.questionArray.length}<br />
                                             Grade: {test.scores.rightAnswers} / {scoreDenominator}<br />
                                     </li>
                                 )

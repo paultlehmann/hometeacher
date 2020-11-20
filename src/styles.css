@@ -1,0 +1,9 @@
+.happy-message {
+    color: #006400;
+    font-weight: bold;
+}
+
+.sad-message {
+    color: #FF0000;
+    font-weight: bold;
+}
