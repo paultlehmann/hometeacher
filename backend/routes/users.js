@@ -1,4 +1,3 @@
-const express = require("express");
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -53,7 +52,7 @@ router.route("/login").post(function (req, res) {
                 )
             }
 
-            if (password == user.password) {
+            if (bcrypt.compareSync(password, user.password)) {
                 const jwtPayload = {
                     id: user._id,
                     lastName: user.lastName,

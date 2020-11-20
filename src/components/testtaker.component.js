@@ -145,10 +145,10 @@ export default class TestTaker extends Component {
                     </form>
                 </div>
                 <br />
-                <div class = "happy-message">
+                <div className = "happy-message">
                 {this.state.happyMessage}<br />
                 </div>
-                <div class = "click-to-return">
+                <div className = "click-to-return">
                 <a href = "/stdashboard">{this.state.happyMessage2}</a>
                 </div>
             </div>

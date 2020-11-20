@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+const bcrypt = require("bcryptjs")
 
 export default class Register extends Component {
     constructor(props) {
@@ -23,6 +24,11 @@ export default class Register extends Component {
             happyMessage2: "",
             workingUser: {}
         }
+    }
+
+    encryptPassword(password) {
+        let hashedPW = bcrypt.hashSync(password, 10);
+        return hashedPW;
     }
 
     onSetUsername(e) {
@@ -52,11 +58,13 @@ export default class Register extends Component {
     }
 
     onSubmit(e) {
+        let encryptedPW = this.encryptPassword(this.state.password);
+        console.log(encryptedPW);
         let that = this;
         e.preventDefault();
         const user = {
             username: this.state.username,
-            password: this.state.password,
+            password: encryptedPW,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             accountType: this.state.accountType
@@ -140,10 +148,10 @@ export default class Register extends Component {
                     </div>
                 </form>
                 <br />
-                <div class = "happy-message">
+                <div className = "happy-message">
                 {this.state.happyMessage}<br />
                 </div>
-                <div class = "click-to-return">
+                <div className = "click-to-return">
                 <a href="/login">{this.state.happyMessage2}</a>
                 </div>
             </div>

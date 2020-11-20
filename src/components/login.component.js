@@ -12,7 +12,8 @@ export default class Login extends Component {
 
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            sadMessage: ""
         }
     }
 
@@ -25,6 +26,7 @@ export default class Login extends Component {
     }
 
     onSubmit(e) {
+        let that = this;
         e.preventDefault();
         const loginData = {
             username: this.state.username,
@@ -41,6 +43,11 @@ export default class Login extends Component {
             const decodedToken = jwt_decode(token);
             console.log("Current user: " + JSON.stringify(decodedToken));
             window.location.replace("/dashboard");
+        })
+        .catch(function(err) {
+            that.setState({
+                sadMessage: "ERROR: Invalid username or password."
+            })
         })
     }
 
@@ -70,6 +77,7 @@ export default class Login extends Component {
                     <div className="submitButton">
                         <button type="submit">Log In</button>
                     </div>
+                    <div className="sad-message">{this.state.sadMessage}</div>
                     <br />
                     <div>
                         <h2>No account? <a href="/register">Register one now!</a></h2>
