@@ -23,7 +23,8 @@ export default class TestTaker extends Component {
             token: localStorage.getItem("jwtToken"),
             student: "",
             oldTestToDelete: "0",
-            happyMessage: ""
+            happyMessage: "",
+            randomizedArray: []
         };
     }
 
@@ -34,7 +35,7 @@ export default class TestTaker extends Component {
         this.setState({
             testID: scrapedTestID
         }, function () {
-            this.getTest();
+            this.getTest()
         })
     }
 
@@ -58,7 +59,7 @@ export default class TestTaker extends Component {
         let objectKey = e.target.name;
         let objectValue = e.target.value;
 
-        guessObject.[objectKey] = objectValue;
+        guessObject[objectKey] = objectValue;
 
         console.log(guessObject);
 
@@ -119,20 +120,20 @@ export default class TestTaker extends Component {
                                     <li className="test-taker-question">
                                         {question.prompt}<br />
                                         <label>
-                                            <input type="radio" name={question.prompt} value={question.rightAnswer} />
-                                        A. {question.rightAnswer}<br />
+                                            <input type="radio" name={question.prompt} value={question.randomizedAnswerArray[0]} />
+                                        A. {question.randomizedAnswerArray[0]}<br />
                                         </label>
                                         <label>
-                                            <input type="radio" name={question.prompt} value={question.wrongAnswers[0]} />
-                                        B. {question.wrongAnswers[0]}<br />
+                                            <input type="radio" name={question.prompt} value={question.randomizedAnswerArray[1]} />
+                                        B. {question.randomizedAnswerArray[1]}<br />
                                         </label>
                                         <label>
-                                            <input type="radio" name={question.prompt} value={question.wrongAnswers[1]} />
-                                        C. {question.wrongAnswers[1]}<br />
+                                            <input type="radio" name={question.prompt} value={question.randomizedAnswerArray[2]} />
+                                        C. {question.randomizedAnswerArray[2]}<br />
                                         </label>
                                         <label>
-                                            <input type="radio" name={question.prompt} value={question.wrongAnswers[2]} />
-                                        D. {question.wrongAnswers[2]}<br />
+                                            <input type="radio" name={question.prompt} value={question.randomizedAnswerArray[3]} />
+                                        D. {question.randomizedAnswerArray[3]}<br />
                                         </label>
                                     </li>
                                 )

@@ -26,6 +26,17 @@ export default class QEditor extends Component {
         }
     }
 
+    randomizeAnswers(answers) {
+        let startingArray = answers;
+        let randomizedArray = [];
+        while (startingArray.length > 0) {
+          let randomSeed = Math.floor(Math.random() * startingArray.length);
+          randomizedArray.push(startingArray[randomSeed]);
+          startingArray.splice(randomSeed, 1);
+        }
+        return randomizedArray;
+      }
+
     onSetPrompt(e) {
         this.setState({
             prompt: e.target.value
@@ -67,11 +78,13 @@ export default class QEditor extends Component {
         this.wrongAnswerArray.push(this.state.wrongAnswer1);
         this.wrongAnswerArray.push(this.state.wrongAnswer2);
         this.wrongAnswerArray.push(this.state.wrongAnswer3);
+        let unrandomizedArray = this.wrongAnswerArray;
+        unrandomizedArray.push(this.state.rightAnswer);
+        let randomizedArray = this.randomizeAnswers(unrandomizedArray);
         const question = {
             prompt: this.state.prompt,
             rightAnswer: this.state.rightAnswer,
-            wrongAnswers: this.wrongAnswerArray,
-            guess: this.state.guess
+            randomizedAnswerArray: randomizedArray
         };
         console.log(question);
         axios.put(`http://localhost:5000/tests/id/${this.state.testID}`, question)
@@ -83,11 +96,13 @@ export default class QEditor extends Component {
         this.wrongAnswerArray.push(this.state.wrongAnswer1);
         this.wrongAnswerArray.push(this.state.wrongAnswer2);
         this.wrongAnswerArray.push(this.state.wrongAnswer3);
+        let unrandomizedArray = this.wrongAnswerArray;
+        unrandomizedArray.push(this.state.rightAnswer);
+        let randomizedArray = this.randomizeAnswers(unrandomizedArray);
         const question = {
             prompt: this.state.prompt,
             rightAnswer: this.state.rightAnswer,
-            wrongAnswers: this.wrongAnswerArray,
-            guess: this.state.guess
+            randomizedAnswerArray: randomizedArray
         };
         console.log(question);
         axios.put(`http://localhost:5000/tests/id/${this.state.testID}`, question)
