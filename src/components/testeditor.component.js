@@ -129,7 +129,7 @@ export default class TestEditor extends Component {
         console.log(decodedToken);
         console.log(this.state.teacher);
         return (
-            <div>
+            <div className = "general-body">
                 <h3>Create test/assignment</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="testEditorFormField">

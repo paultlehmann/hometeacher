@@ -102,7 +102,7 @@ export default class AssignTest extends Component {
 
     render() {
         return (
-            <div>
+            <div className = "general-body">
                 <h3>Assign test to students</h3>
                 <div>
                     <form>

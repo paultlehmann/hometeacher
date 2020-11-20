@@ -46,7 +46,7 @@ export default class StDashboard extends Component {
             window.location.replace("/dashboard");
         }
         return (
-            <div>
+            <div className = "general-body">
                 <h3>Take a test</h3>
                 <hr />
                 <div>

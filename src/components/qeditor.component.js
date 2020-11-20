@@ -126,7 +126,7 @@ export default class QEditor extends Component {
     
     render() {
         return (
-            <div>
+            <div className = "general-body">
                 <h3>Add a question</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="qEditorFormField">

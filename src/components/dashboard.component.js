@@ -113,7 +113,7 @@ export default class Dashboard extends Component {
             window.location.replace("/stdashboard");
         }
         return (
-            <div>
+            <div className = "general-body">
                 <h3><a href="/testeditor">Create a new test</a></h3>
                 <hr />
                 <br />

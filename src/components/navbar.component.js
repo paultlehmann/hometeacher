@@ -20,7 +20,7 @@ export default class Navbar extends Component {
 
     render() {
         let decodedToken = {
-            firstName: "Not logged in!"
+            accountType: "not logged in"
         }
         const token = localStorage.getItem("jwtToken");
         if (token != null) {
@@ -30,7 +30,7 @@ export default class Navbar extends Component {
             <nav className="header">
                 <table>
                     <tr>
-                        <td><font size="22">HomeTeacher</font></td>
+                        <td className = "welcome"><font size="22">HomeTeacher</font></td>
                         <td>Currently logged in as:<br />
                             {decodedToken.firstName} {decodedToken.lastName}<br />
                             ({decodedToken.accountType})<br />

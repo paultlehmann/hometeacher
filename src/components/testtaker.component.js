@@ -110,7 +110,7 @@ export default class TestTaker extends Component {
         let id = decodedToken.id;
         this.state.student = id;
         return (
-            <div>
+            <div className = "general-body">
                 <h3>{this.state.loadedTest.name}</h3>
                 <br />
                 <div onChange = {this.onChange}>
